@@ -3,13 +3,33 @@ __author__ = 'Adam'
 import sys
 import fileinput
 
-if len(sys.argv) < 1 :
-    print "You should specify file to open"
-else :
-    for line in fileinput.input( str(sys.argv[1]) ) :
-        if fileinput.isfirstline() :
-            print "It's first line"
-        print line
+class GameOfLine( object ):
+
+    def __init__(self, iterations = 0, X = 0, Y = 0):
+        self.__iterations = iterations
+        self.__X = X
+        self.__Y = Y
+
+    def setParams(self, iterations, X, Y):
+        self.__iterations = iterations
+        self.__X = X
+        self.__Y =Y
+
+    def __str__(self):
+        return "iterations : %d, board : %dx%d" % (self.__iterations, self.__X, self.__Y)
+
+if __name__ == "__main__" :
+    if len(sys.argv) < 1 :
+        print "You should specify file to open"
+    else :
+        game = GameOfLine()
+        for line in fileinput.input( str(sys.argv[1]) ) :
+            if fileinput.isfirstline() :
+                inputParams = line.split()
+                game.setParams( int(inputParams[0]), int(inputParams[1]), int(inputParams[2]) )
+                print (game)
+            else :
+                print line
 
 
 
