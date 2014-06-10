@@ -9,12 +9,18 @@ class GameOfLine( object ):
         self.__iterations = iterations
         self.__X = X
         self.__Y = Y
+        self.__matrix = [["." for x in xrange(X)] for y in xrange(Y)]
 
     def setParams(self, iterations, X, Y):
         self.__iterations = iterations
         self.__X = X
-        self.__Y =Y
+        self.__Y = Y
+        self.__matrix = [["." for x in xrange(X)] for y in xrange(Y)]
 
+    def printBoard(self):
+        for y in xrange(self.__Y) :
+            print self.__matrix[y]
+            print "\n"
     def __str__(self):
         return "iterations : %d, board : %dx%d" % (self.__iterations, self.__X, self.__Y)
 
@@ -30,7 +36,8 @@ if __name__ == "__main__" :
                 print (game)
             else :
                 print line
-
+        print "Initialized board"
+        game.printBoard()
 
 
 
