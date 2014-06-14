@@ -18,9 +18,8 @@ class GameOfLine( object ):
         self.__matrix = [["." for x in xrange(X)] for y in xrange(Y)]
 
     def printBoard(self):
-        for y in xrange(self.__Y) :
-            print self.__matrix[y]
-            print "\n"
+        print "\n".join(" ".join(str(element) for element in row) for row in self.__matrix)
+
     def __str__(self):
         return "iterations : %d, board : %dx%d" % (self.__iterations, self.__X, self.__Y)
 
