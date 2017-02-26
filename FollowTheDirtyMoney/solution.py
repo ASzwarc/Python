@@ -5,6 +5,7 @@ import urllib
 import re
 
 total_sum = 0.0
+transaction_no = 0
 pattern = r"[$]\d*[\.|\,]\d*"
 replacement = re.compile('\,')
 first_link = ("https://gist.githubusercontent.com/jorinvo/"
@@ -20,12 +21,15 @@ def add_value_from_content(content):
 		total_sum += float(value)
 
 def follow_link_and_get_value(link):
+	global transaction_no
 	print("Current sum: " + str(total_sum))
 	print("Getting data from:")
 	print(link)
 	data = urllib.urlopen(link).read()
 	output = json.loads(data)
 	add_value_from_content(output['content'])
+	transaction_no += 1
+	print("Transaction no: " + str(transaction_no))
 	for link in output['links']:
 		follow_link_and_get_value(link)
 
