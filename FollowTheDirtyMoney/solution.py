@@ -4,15 +4,32 @@ import json
 import urllib
 import re
 
-regexp_patter = re.compile("\$\d*(\.|\,)\d*")
+global total_sum = 0
+pattern = r"[$]\d*[\.|\,]\d*"
+replacement = re.compile('\,')
+first_link = ("https://gist.githubusercontent.com/jorinvo/"
+			 "6f68380dd07e5db3cf5fd48b2465bb04/raw/"
+			 "c02b1e0b45ecb2e54b36e4410d0631a66d474323/"
+			 "fd0d929f-966f-4d1a-89cd-feee5a1c5347.json")
 
-data = urllib.urlopen("https://gist.githubusercontent.com/jorinvo/"
-					  "6f68380dd07e5db3cf5fd48b2465bb04/raw/"
-					  "c02b1e0b45ecb2e54b36e4410d0631a66d474323/"
-					  "fd0d929f-966f-4d1a-89cd-feee5a1c5347.json").read()
-output = json.loads(data)
+def add_value_from_content(content):
+	for match in re.findall(pattern, content):
+		value = replacement.sub('.', match[1:])
+		print("Adding value: " + value)
+		total_sum = float(value)
 
-#print(output['content'])
+def follow_link_and_get_value(link):
+	print("Current sum: " + str(total_sum))
+	print("Getting data from:")
+	print(link)
+	data = urllib.urlopen(link).read()
+	output = json.loads(data)
+	add_value_from_content(output['content'])
+	for link in output['links']:
+		follow_link_and_get_value(link)
 
-for match in regexp_patter.findall(output['content']):
-	print(match)
+def main():
+	follow_link_and_get_value(first_link)
+
+if __name__ == '__main__':
+	main()
